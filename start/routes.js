@@ -26,52 +26,53 @@ Route.get('loggedIn', 'UserController.loggedIn').middleware('auth')
 Route.get('loginCheck', 'UserController.loginCheck').middleware('auth')
 Route.post('logout', 'UserController.logout').middleware('auth')
 // Read
-Route.get('getUser/:id', 'UserController.show').middleware(['auth', 'FindUser'])
+Route.get('getUser/:id', 'UserController.show').middleware(['auth'])
 Route.get('getAllUsers', 'UserController.index').middleware('auth')
 // Update
 Route.put('update/:id', 'UserController.update').middleware(['auth', 'FindUser'])
 // Delete
 Route.delete('delete/:id', 'UserController.destroy').middleware(['auth', 'FindUser'])
 
+Route.get('getImage', 'ImageController.show')
 //API routes
 Route.group(() => {
-  // //Imagenes
-  // Route.post('uploadImage', 'ImageController.create')
-  // // Route.get('getImage', 'ImageController.show')
-  // Route.get('getImageID', 'ImageController.index')
-  // Route.delete('deleteImage', 'ImageController.destroy')
-  //
-  // //Avatar
-  // Route.post('uploadAvatar', 'AvatarController.create')
-  // Route.get('getAvatar', 'AvatarController.show')
-  // Route.get('getAvatarID', 'AvatarController.index')
-  // Route.delete('deleteAvatar', 'AvatarController.destroy')
+  //Imagenes
+  Route.post('uploadImage', 'ImageController.create')
+  // Route.get('getImage', 'ImageController.show')
+  Route.get('getImageID', 'ImageController.index')
+  Route.delete('deleteImage', 'ImageController.destroy')
+
+  //Avatar
+  Route.post('uploadAvatar', 'AvatarController.create')
+  Route.get('getAvatar', 'AvatarController.show')
+  Route.get('getAvatarID', 'AvatarController.index')
+  Route.delete('deleteAvatar', 'AvatarController.destroy')
 
   // Publications
   // Create
   Route.post('newPost', 'PublicationController.create')
   // Read
   Route.get('showPosts', 'PublicationController.index')
-  Route.get('showPost/:id', 'PublicationController.show').middleware('FindPublicationById')
+  Route.get('showPost/:id', 'PublicationController.show').middleware('FindPost')
   Route.get('showPosts/byTitle', 'PublicationController.selectPublicationByTitle')
   Route.get('showPosts/byUser', 'PublicationController.selectPublicationByUserID')
   // Update
-  Route.put('updatePost/:id', 'PublicationController.update').middleware('FindPublicationById')
+  Route.put('updatePost/:id', 'PublicationController.update').middleware('FindPost')
   // Delete
-  Route.delete('deletePost/:id', 'PublicationController.destroy').middleware('FindPublicationById')
+  Route.delete('deletePost/:id', 'PublicationController.destroy').middleware('FindPost')
 
   // Commentaries
   //Create commentary
   Route.post('newComment', 'CommentController.create')
   //Read commentary
   Route.get('showComments', 'CommentController.index')
-  Route.get('showComment/:id', 'CommentController.show').middleware('FindCommentById')
+  Route.get('showComment/:id', 'CommentController.show').middleware('FindComment')
   Route.get('showComments/byPost', 'CommentController.selectCommentByPublication')
   Route.get('showComments/byUser', 'PublicationController.selectCommentByUserID')
   //Update commentary
-  Route.put('updateComment/:id', 'CommentController.update').middleware('FindCommentById')
+  Route.put('updateComment/:id', 'CommentController.update').middleware('FindComment')
   //Delete commentary
-  Route.delete('deleteComment/:id', 'CommentController.destroy').middleware('FindCommentById')
+  Route.delete('deleteComment/:id', 'CommentController.destroy').middleware('FindComment')
 
   // MongoCommentaries
   //Create commentary

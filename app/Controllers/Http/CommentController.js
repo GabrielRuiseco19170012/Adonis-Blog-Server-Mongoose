@@ -39,6 +39,7 @@ class CommentController {
   async create({request, response}) {
     const rules =
       {
+        username: 'required|string',
         publication_id: 'required|integer',
         user_id: 'required|integer',
         content: 'required|string',
@@ -48,14 +49,16 @@ class CommentController {
       return validation.messages()
     } else {
       try {
-        const {publication_id, user_id, content} = request.only([
+        const {publication_id, user_id, content, username} = request.only([
           'publication_id',
           'user_id',
-          'content'
+          'content',
+          'username'
         ])
         await Comment.create({
           publication_id,
           user_id,
+          username,
           content
         })
         return response.status(201).send({message: 'Comment has been created'})
@@ -90,6 +93,7 @@ class CommentController {
       const res = {
         publication_id: comment.publication_id,
         user_id: comment.user_id,
+        username: comment.username,
         content: comment.content,
       }
       return response.status(200).json(res)
@@ -159,6 +163,7 @@ class CommentController {
       const data = request.only(['publication_id', 'user_id', 'content']);
       const comment = request.c
       comment.publication_id = data.publication_id;
+      comment.username = data.username;
       comment.user_id = data.user_id;
       comment.content = data.content;
       await comment.save();

@@ -1,26 +1,26 @@
 'use strict'
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
+
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-const User = use('App/Models/User')
 
-class FindById {
+class FindComment {
   /**
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Function} next
    */
-  async handle ({ request, response, params: {id} }, next) {
-    const user = await User.findBy('id', id)
-    if (!user) {
+  async handle({request}, next) {
+    const comment = await Comment.findBy('id', id)
+    if (!comment) {
       return response.status(404).json({
-        message: 'User not found', id
+        message: 'Comment not found', id
       })
     }
-    request.u = user;
+    request.c = comment;
     // call next to advance the request
     await next()
   }
 }
 
-module.exports = FindById
+module.exports = FindComment

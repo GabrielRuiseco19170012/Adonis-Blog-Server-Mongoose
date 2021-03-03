@@ -8,8 +8,10 @@ const {Schema} = mongoose
 
 const CommentSchema = new Schema(
   {
+    id: String,
     publication_id: String,
     user_id: String,
+    username: String,
     content: String,
     date: {type: Date, default: Date.now}
   }

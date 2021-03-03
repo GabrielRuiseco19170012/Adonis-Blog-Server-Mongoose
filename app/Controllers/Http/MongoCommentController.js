@@ -36,6 +36,7 @@ class MongoCommentController {
       {
         publication_id: 'required|integer',
         user_id: 'required|integer',
+        username: 'required|string',
         content: 'required|string',
       }
     const validation = await validate(request.all(), rules)
@@ -43,17 +44,21 @@ class MongoCommentController {
       return validation.messages()
     } else {
       try {
-        const {publication_id, user_id, content} = request.only([
+        const {publication_id, user_id, content, username} = request.only([
           'publication_id',
           'user_id',
-          'content'
+          'content',
+          'username'
         ])
+        console.log(username)
         await MongoComment.create({
-          id: id + 1,
+          id: id,
           publication_id: publication_id,
           user_id: user_id,
+          username: username,
           content: content,
         })
+        console.log(id);
         return response.status(201).send({message: 'Comment has been created'})
       } catch (e) {
         return response.status(400).send({'Error': e.toString()});
@@ -156,11 +161,11 @@ class MongoCommentController {
           id: data.id,
           publication_id: data.publication_id,
           user_id: data.user_id,
+          username: data.username,
           content: data.content,
           date: date
         }
-      )
-      ;
+      );
       return response.status(200).send({message: "updated"});
     } catch (e) {
       return response.status(400).send({'Error': e.toString()});
@@ -178,7 +183,7 @@ class MongoCommentController {
   async destroy({request, response}) {
     try {
       const id = request.only(['id'])
-      await MongoComment.findByIdAndDelete(id)
+      await MongoComment.deleteOne({id: id})
       return response.status(204).send({message: 'Comment has been destroyed'});
     } catch (e) {
       return response.status(400).send({'Error': e.toString()});

@@ -69,7 +69,7 @@ module.exports = {
   |
   */
   mongodb: {
-    connectionString: Env.get('MONGO_CONNECTION_STRING', 'mongodb://localhost:27017/adonismongo',{useNewUrlParser: true}),
+    connectionString: Env.get('MONGO_CONNECTION_STRING', null),
     connection: {
       host: Env.get('MONGO_HOST', 'localhost'),
       port: Env.get('MONGO_PORT', 27017),

@@ -69,12 +69,12 @@ class UserController {
    * GET users/:id
    *
    * @param {object} ctx
-   * @param {Request} ctx.request
+   * @param {Request} ctx.params
    * @param {Response} ctx.response
    */
-  async show({request, response}) {
+  async show({params: {id}, response}) {
     try {
-      const user = request.u
+      const user = await User.findBy('id', id)
       const res = {
         username: user.username,
         first_name: user.first_name,

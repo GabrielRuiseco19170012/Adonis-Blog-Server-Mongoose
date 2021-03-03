@@ -2,25 +2,25 @@
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-const Publication = use('App/Models/Publication')
+const User = use('App/Models/User')
 
-class FindPublicationById {
+class FindUser {
   /**
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Function} next
    */
-  async handle ({ request }, next) {
-    const publication = await Publication.findBy('id', id)
-    if (!publication) {
+  async handle({request, response, params: {id}}, next) {
+    const user = await User.findBy('id', id)
+    if (!user) {
       return response.status(404).json({
-        message: 'Publication not found', id
+        message: 'User not found', id
       })
     }
-    request.p = publication;
+    request.u = user;
     // call next to advance the request
     await next()
   }
 }
 
-module.exports = FindPublicationById
+module.exports = FindUser

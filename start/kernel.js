@@ -37,9 +37,12 @@ const globalMiddleware = [
 const namedMiddleware = {
   auth: 'Adonis/Middleware/Auth',
   guest: 'Adonis/Middleware/AllowGuestOnly',
-  findByID: 'Adonis/Middleware/FindByID',
-  findPublicationByID: 'Adonis/Middleware/FindPublicationByID',
-  findCommentByID: 'Adonis/Middleware/FindCommentByID'
+  // FindById: 'Adonis/Middleware/FindById',
+  // FindPublicationById: 'Adonis/Middleware/FindPublicationById',
+  // FindCommentById: 'Adonis/Middleware/FindCommentById',
+  FindUser: 'Adonis/Middleware/FindUser',
+  FindPost: 'Adonis/Middleware/FindPost',
+  FindComment: 'Adonis/Middleware/FindComment'
 }
 
 /*

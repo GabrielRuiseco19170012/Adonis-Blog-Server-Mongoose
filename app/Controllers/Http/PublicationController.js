@@ -22,7 +22,7 @@ class PublicationController {
   async index({response}) {
     const data = await Publication.all();
     try {
-      return response.status(200).send({'Data': data});
+      return response.status(200).json(data);
     } catch (e) {
       return response.status(400).send({'Error': e});
     }
@@ -39,6 +39,7 @@ class PublicationController {
   async create({request, response}) {
     const rules =
       {
+        username: 'required|string',
         user_id: 'required|integer',
         title: 'required|string',
         content: 'required|string',
@@ -48,17 +49,19 @@ class PublicationController {
       return validation.messages()
     } else {
       try {
-        const {user_id, title, content} = request.only([
+        const {user_id, title, content, username} = request.only([
           'user_id',
           'title',
-          'content'
+          'content',
+          'username'
         ])
-        await Publication.create({
+        const post = await Publication.create({
           user_id,
+          username,
           title,
           content
         })
-        return response.status(201).send({message: 'Publication has been created'})
+        return response.status(201).json(post)
       } catch (e) {
         return response.status(400).send({'Error': e});
       }
@@ -89,6 +92,7 @@ class PublicationController {
       const publication = request.p
       const res = {
         user_id: publication.user_id,
+        username: publication.username,
         title: publication.first_name,
         content: publication.content,
       }
@@ -156,9 +160,10 @@ class PublicationController {
    */
   async update({request, response}) {
     try {
-      const data = request.only(['user_id', 'title', 'content']);
+      const data = request.only(['user_id', 'title', 'content', 'username']);
       const publication = request.p
       publication.user_id = data.user_id;
+      publication.username = data.username;
       publication.title = data.title;
       publication.content = data.content;
       await publication.save();
